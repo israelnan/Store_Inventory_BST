@@ -25,7 +25,6 @@ Line 61: "", ""
 Line 62: "", ""
 Line 55: "", "" + product to root->product, since now it's already stored
 Line 54: "", "" + "", ""
-
 Line 212: deleted (by commenting), since product is no longer heap allocated
 Line 213: "", ""
 Line 202: "", ""
