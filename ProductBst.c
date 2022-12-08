@@ -1,18 +1,18 @@
 #include "ProductBST.h"
 
-Node* recursive_add(Node *root, Product *product);
+Node* recursive_add(Node *root, Product product);
 Node* handle_line_and_add(Node *root, char *line);
 Node* min_value_node(Node *root);
 
-Node* recursive_add(Node *root, Product *product){
+Node* recursive_add(Node *root, Product product){
     if (root == NULL){
         root->product = product;
         return root;
     }
-    if (strcmp(product->name,root->product->name) > 0){
+    if (strcmp(product.name,root->product.name) > 0){
         return recursive_add(root->right_child,product);
     }
-    if (strcmp(product->name,root->product->name) < 0){
+    if (strcmp(product.name,root->product.name) < 0){
         return recursive_add(root->left_child,product);
     }
     return root;
@@ -29,15 +29,15 @@ Node *add_product (Node *root, char *name, int quantity){
         fprintf(stderr, INVALID_QUANTITY);
         return NULL;
     }
-    Product *product = (Product*) calloc(1, sizeof(Product));
-    if (!product){
-        fprintf(stderr, ERROR);
-        fprintf(stderr, ALLOCATION_FAILED);
-        return NULL;
-    }
-    product->name = name;
-    product->quantity = quantity;
-    return recursive_add(root, product);
+//    Product *product = (Product*) calloc(1, sizeof(Product));
+//    if (!product){
+//        fprintf(stderr, ERROR);
+//        fprintf(stderr, ALLOCATION_FAILED);
+//        return NULL;
+//    }
+    root->product.name = name;
+    root->product.quantity = quantity;
+    return recursive_add(root, root->product);
 }
 
 Node *build_bst (const char *filename){
@@ -90,13 +90,13 @@ Product *search_product (Node *root, char *name){
         fprintf(stderr, INVALID_POINTER);
         return NULL;
     }
-    if (strcmp(name,root->product->name) == 0){
-        return root->product;
+    if (strcmp(name,root->product.name) == 0){
+        return &root->product;
     }
-    if (strcmp(name,root->product->name) > 0){
+    if (strcmp(name,root->product.name) > 0){
         return search_product(root->right_child, name);
     }
-    if (strcmp(name, root->product->name) < 0){
+    if (strcmp(name, root->product.name) < 0){
         return search_product(root->left_child, name);
     }
     fprintf(stderr, ERROR);
@@ -126,8 +126,8 @@ void delete_tree (Node *root){
     if (!root) return;
     delete_tree(root->left_child);
     delete_tree(root->right_child);
-    free(root->product);
-    root->product = NULL;
+    free(root->product.name);
+    root->product.name = NULL;
     free(root);
     root = NULL;
 }
@@ -138,34 +138,34 @@ Node *delete_product (Node *root, char *name){
         fprintf(stderr, INVALID_POINTER);
         return NULL;
     }
-    if (strcmp(name, root->product->name) > 0){
+    if (strcmp(name, root->product.name) > 0){
         root->right_child =
                 delete_product(root->right_child, name);
     }
-    if (strcmp(name, root->product->name) < 0){
+    if (strcmp(name, root->product.name) < 0){
         root->right_child =
                 delete_product(root->right_child, name);
     }
     else{
         if (!root->left_child){
             Node *temp = root->right_child;
-            free(root->product);
-            root->product = NULL;
+            free(root->product.name);
+            root->product.name = NULL;
             free(root);
             root = NULL;
             return temp;
         }
         if (!root->right_child){
             Node *temp = root->left_child;
-            free(root->product);
-            root->product = NULL;
+            free(root->product.name);
+            root->product.name = NULL;
             free(root);
             root = NULL;
             return temp;
         }
         Node *temp = min_value_node(root->right_child);
         root->product = temp->product;
-        root->right_child = delete_product(root->right_child, temp->product->name);
+        root->right_child = delete_product(root->right_child, temp->product.name);
     }
     return root;
 }

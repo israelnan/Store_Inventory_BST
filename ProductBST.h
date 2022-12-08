@@ -30,7 +30,7 @@ typedef struct Product {
 } Product;
 
 typedef struct Node {
-    Product *product;
+    Product product;
     struct Node *right_child;
     struct Node *left_child;
 } Node;
