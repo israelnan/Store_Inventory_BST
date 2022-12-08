@@ -2,8 +2,37 @@
 
 #define BASE 10
 
+/***
+ * printing the error with its initial, aka "Error: "
+ * @param type pointer to C-string of the specific type of the error.
+ */
+void print_error(char* type);
+
+/***
+ * recursive function to traverse the BST till the correct branch to
+ * be inserted. if product already exist prints an error massage.
+ * @param root pointer to the root of the BST
+ * @param name pointer to the name of the product
+ * @param q quantity of the product in stock
+ * @return the root after insertion
+ */
 Node* recursive_add(Node *root, char *name,int q);
+
+/***
+ * parsing the crud line written in the file.
+ * if line continue after quantity prints an error and return NULL
+ * @param root pointer to pointer to the root of the BST
+ * @param line a C string of all line, without its next line mark.
+ * @return Node of the root of the BST after insertion,
+ * NULL in invalid case as specified
+ */
 Node* handle_line_and_add(Node **root, char *line);
+
+/***
+ * traverse the BST within its left sides, to find the minimum value.
+ * @param root pointer to the root of the BST
+ * @return the left leaf, aka the minimum node in the tree.
+ */
 Node* min_value_node(Node *root);
 
 void print_error(char* type){
